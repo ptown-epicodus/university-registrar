@@ -163,5 +163,42 @@ class StudentTest extends PHPUnit_Framework_TestCase
         //Assert
         $this->assertEquals($test_Student1, $result);
     }
+
+    function test_update()
+    {
+        //Arrange
+        $name = 'John Doe';
+        $new_name = 'Jane Doe';
+        $enrollment_date = new DateTime('1970-01-01');
+        $new_enrollment_date = new DateTime('2000-01-01');
+        $test_Student = new Student($name, $enrollment_date);
+
+        //Act
+        $test_Student->update($new_name);
+        $result = $test_Student->getName();
+
+        //Assert
+        $this->assertEquals('Jane Doe', $result);
+    }
+
+    function test_delete()
+    {
+        //Arrange
+        $name1 = 'John Doe';
+        $name2 = 'Jane Doe';
+        $enrollment_date1 = new DateTime();
+        $enrollment_date2 = new DateTime();
+        $test_Student1 = new Student($name1, $enrollment_date1);
+        $test_Student1->save();
+        $test_Student2 = new Student($name2, $enrollment_date2);
+        $test_Student2->save();
+
+        //Act
+        $test_Student1->delete();
+        $result = Student::getAll();
+
+        //Assert
+        $this->assertEquals([$test_Student2], $result);
+    }
 }
 ?>
