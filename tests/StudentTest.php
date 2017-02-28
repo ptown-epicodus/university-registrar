@@ -193,7 +193,13 @@ class StudentTest extends PHPUnit_Framework_TestCase
         $test_Student2 = new Student($name2, $enrollment_date2);
         $test_Student2->save();
 
+        $name = 'Calculus';
+        $course_number = 'MATH201';
+        $test_Course = new Course($name, $course_number);
+        $test_Course->save();
+
         //Act
+        $test_Student1->addCourse($test_Course);
         $test_Student1->delete();
         $result = Student::getAll();
 

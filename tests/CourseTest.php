@@ -193,7 +193,13 @@ class CourseTest extends PHPUnit_Framework_TestCase
         $test_Course2 = new Course($name2, $course_number2);
         $test_Course2->save();
 
+        $name = 'John Doe';
+        $enrollment_date = new DateTime('1970-01-01');
+        $test_Student = new Student($name, $enrollment_date);
+        $test_Student->save();
+
         //Act
+        $test_Course1->addStudent($test_Student);
         $test_Course1->delete();
         $result = Course::getAll();
 
