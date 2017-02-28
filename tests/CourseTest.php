@@ -161,5 +161,21 @@ class CourseTest extends PHPUnit_Framework_TestCase
         //Assert
         $this->assertEquals($test_Course1, $result);
     }
+
+    function test_update()
+    {
+        $name1 = 'Calculus';
+        $new_name = 'Infinite Series';
+        $course_number1 = 'MATH201';
+        $test_Course1 = new Course($name1, $course_number1);
+        $test_Course1->save();
+
+        //Act
+        $test_Course1->update($new_name);
+        $result = $test_Course1->getName();
+
+        //Assert
+        $this->assertEquals('Infinite Series', $result);
+    }
 }
 ?>
