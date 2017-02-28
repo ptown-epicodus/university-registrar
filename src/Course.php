@@ -61,5 +61,19 @@ class Course
     {
         $GLOBALS['DB']->exec("DELETE FROM courses;");
     }
+
+    static function find($search_id)
+    {
+        $found_course = null;
+        $query = $GLOBALS['DB']->query("SELECT * FROM courses WHERE id = {$search_id};");
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        if ($result) {
+            $id = $result['id'];
+            $name = $result['name'];
+            $course_number = $result['course_number'];
+            $found_course = new Course($name, $course_number, $id);
+        }
+        return $found_course;
+    }
 }
 ?>
