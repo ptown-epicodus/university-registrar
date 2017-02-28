@@ -200,5 +200,53 @@ class StudentTest extends PHPUnit_Framework_TestCase
         //Assert
         $this->assertEquals([$test_Student2], $result);
     }
+
+    function test_addCourse()
+    {
+        //Arrange
+        $name = 'John Doe';
+        $enrollment_date = new DateTime();
+        $test_Student = new Student($name, $enrollment_date);
+        $test_Student->save();
+
+        $name = 'Calculus';
+        $course_number = 'MATH201';
+        $test_Course = new Course($name, $course_number);
+        $test_Course->save();
+
+        //Act
+        $test_Student->addCourse($test_Course);
+        $result = $test_Student->getCourses();
+
+        //Assert
+        $this->assertEquals([$test_Course], $result);
+    }
+
+    function test_getCourses()
+    {
+        //Arrange
+        $name = 'John Doe';
+        $enrollment_date = new DateTime();
+        $test_Student = new Student($name, $enrollment_date);
+        $test_Student->save();
+
+        $name1 = 'Calculus';
+        $course_number1 = 'MATH201';
+        $test_Course1 = new Course($name1, $course_number1);
+        $test_Course1->save();
+
+        $name2 = 'Statistics';
+        $course_number2 = 'MATH301';
+        $test_Course2 = new Course($name2, $course_number2);
+        $test_Course2->save();
+
+        //Act
+        $test_Student->addCourse($test_Course1);
+        $test_Student->addCourse($test_Course2);
+        $result = $test_Student->getCourses();
+
+        //Assert
+        $this->assertEquals([$test_Course1, $test_Course2], $result);
+    }
 }
 ?>

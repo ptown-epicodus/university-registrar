@@ -63,14 +63,14 @@ class Course
     {
         $returned_students = $GLOBALS['DB']->query("SELECT students.* FROM courses JOIN enrollments ON (enrollments.course_id = courses.id) JOIN students ON (students.id = enrollments.student_id) WHERE courses.id = {$this->getId()};");
         $students = array();
-            foreach($returned_students as $student) {
-                $name = $student['name'];
-                $id = $student['id'];
-                $enrollment_date = new DateTime($student['enrollment_date']);
-                $new_student = new Student($name, $enrollment_date, $id);
-                array_push($students, $new_student);
-            }
-            return $students;
+        foreach($returned_students as $student) {
+            $name = $student['name'];
+            $id = $student['id'];
+            $enrollment_date = new DateTime($student['enrollment_date']);
+            $new_student = new Student($name, $enrollment_date, $id);
+            array_push($students, $new_student);
+        }
+        return $students;
     }
 
     static function getAll()
