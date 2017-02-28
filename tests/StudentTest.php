@@ -1,8 +1,23 @@
 <?php
+/**
+* @backupGlobals disabled
+* @backupStaticAttributes disabled
+*/
+
 require_once 'src/Student.php';
+
+$server = 'mysql:host=localhost:8889;dbname=university_registrar_test';
+$username = 'root';
+$password = 'root';
+$DB = new PDO($server, $username, $password);
 
 class StudentTest extends PHPUnit_Framework_TestCase
 {
+    protected function tearDown()
+    {
+        Student::deleteAll();
+    }
+
     function test_getId()
     {
         //Arrange
@@ -74,6 +89,60 @@ class StudentTest extends PHPUnit_Framework_TestCase
         $result = $test_Student->getEnrollmentDate();
 
         $this->assertEquals(new DateTime('2000-01-01'), $result);
+    }
+
+    function test_save()
+    {
+        //Arrange
+        $name = 'John Doe';
+        $enrollment_date = new DateTime();
+        $test_Student = new Student($name, $enrollment_date);
+
+        //Act
+        $test_Student->save();
+        $result = Student::getAll();
+
+        //Assert
+        $this->assertEquals([$test_Student], $result);
+    }
+
+    function test_getAll()
+    {
+        //Arrange
+        $name1 = 'John Doe';
+        $name2 = 'Jane Doe';
+        $enrollment_date1 = new DateTime();
+        $enrollment_date2 = new DateTime();
+        $test_Student1 = new Student($name1, $enrollment_date1);
+        $test_Student1->save();
+        $test_Student2 = new Student($name2, $enrollment_date2);
+        $test_Student2->save();
+
+        //Act
+        $result = Student::getAll();
+
+        //Assert
+        $this->assertEquals([$test_Student1, $test_Student2], $result);
+    }
+
+    function test_deleteAll()
+    {
+        //Arrange
+        $name1 = 'John Doe';
+        $name2 = 'Jane Doe';
+        $enrollment_date1 = new DateTime();
+        $enrollment_date2 = new DateTime();
+        $test_Student1 = new Student($name1, $enrollment_date1);
+        $test_Student1->save();
+        $test_Student2 = new Student($name2, $enrollment_date2);
+        $test_Student2->save();
+
+        //Act
+        Student::deleteAll();
+        $result = Student::getAll();
+
+        //Assert
+        $this->assertEquals([], $result);
     }
 }
 ?>
