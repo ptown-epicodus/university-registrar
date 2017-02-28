@@ -6,8 +6,18 @@
 
 require_once 'src/Course.php';
 
+$server = 'mysql:host=localhost:8889;dbname=university_registrar_test';
+$username = 'root';
+$password = 'root';
+$DB = new PDO($server, $username, $password);
+
 class CourseTest extends PHPUnit_Framework_TestCase
 {
+    protected function tearDown()
+    {
+        Course::deleteAll();
+    }
+
     function test_getId()
     {
         //Arrange
@@ -77,6 +87,59 @@ class CourseTest extends PHPUnit_Framework_TestCase
         $result = $test_Course->getCourseNumber();
 
         $this->assertEquals('MATH202', $result);
+    }
+
+    function test_save()
+    {
+        //Arrange
+        $name = 'Calculus';
+        $course_number = 'MATH201';
+        $test_Course = new Course($name, $course_number);
+
+        //Act
+        $test_Course->save();
+        $result = Course::getAll();
+
+        $this->assertEquals([$test_Course], $result);
+    }
+
+    function test_getAll()
+    {
+        //Arrange
+        $name1 = 'Calculus';
+        $course_number1 = 'MATH201';
+        $test_Course1 = new Course($name1, $course_number1);
+        $test_Course1->save();
+
+        $name2 = 'Infinite Series';
+        $course_number2 = 'MATH202';
+        $test_Course2 = new Course($name2, $course_number2);
+        $test_Course2->save();
+
+        //Act
+        $result = Course::getAll();
+
+        $this->assertEquals([$test_Course1, $test_Course2], $result);
+    }
+
+    function test_deleteAll()
+    {
+        //Arrange
+        $name1 = 'Calculus';
+        $course_number1 = 'MATH201';
+        $test_Course1 = new Course($name1, $course_number1);
+        $test_Course1->save();
+
+        $name2 = 'Infinite Series';
+        $course_number2 = 'MATH202';
+        $test_Course2 = new Course($name2, $course_number2);
+        $test_Course2->save();
+
+        //Act
+        Course::deleteAll();
+        $result = Course::getAll();
+
+        $this->assertEquals([], $result);
     }
 }
 ?>
