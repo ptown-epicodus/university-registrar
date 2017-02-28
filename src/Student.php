@@ -67,12 +67,13 @@ class Student
     static function find($search_id)
     {
         $found_student = null;
-        $students = Student::getAll();
-        foreach($students as $student) {
-            $id = $student->getId();
-            if ($id == $search_id) {
-                $found_student = $student;
-            }
+        $query = $GLOBALS['DB']->query("SELECT * FROM students WHERE id = {$search_id};");
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        if ($result) {
+            $id = $result['id'];
+            $name = $result['name'];
+            $enrollment_date = new DateTime($result['enrollment_date']);
+            $found_student = new Student($name, $enrollment_date, $id);
         }
         return $found_student;
     }
