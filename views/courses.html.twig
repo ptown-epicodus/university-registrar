@@ -1,0 +1,14 @@
+{% extends 'index.html.twig' %}
+
+{% block content %}
+    {% for course in courses %}
+        <h2>{{ course.getCourseNumber }}: {{ course.getName }}</h2>
+        <h3>Enrolled students:</h3>
+        <ul>
+            {% for student in course.getStudents }
+                <li>{{ student.getName }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+
+{% endblock %}

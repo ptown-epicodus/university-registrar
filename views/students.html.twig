@@ -1,0 +1,12 @@
+{% extends 'index.html.twig' %}
+
+{% block content %}
+    <h2>Master list of students:</h2>
+    <ul>
+        {% for student in students %}
+            <li><a href='/students/{{ student.getId }}'>{{ student.getName }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <p><a href='/'>Home</a></p>
+{% endblock %}

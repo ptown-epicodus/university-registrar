@@ -1,0 +1,30 @@
+{% extends 'index.html.twig' %}
+
+{% block content %}
+    <h2>{{ student.getName }}</h2>
+    <h3>Enrolled in:</h3>
+    <ul>
+        {% for course in enrolled %}
+            <li>{{ course.getCourseNumber }}: {{ course.getName }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if unenrolled is not empty %}
+        <h5>Enroll:</h5>
+        <form action='/add_courses' method='post'>
+            <input id='student_id' name='student_id' type='hidden' value='{{ student.getId }}'>
+
+            <select id='course_id' name='course_id' type='text'>
+                {% for course in unenrolled %}
+                    <option value='{{ course.getId }}'>{{ course.getCourseNumber }}: {{ course.getName }}</option>
+                {% endfor %}
+            </select>
+
+            <button type='submit'>Enroll</button>
+        </form>
+    {% else %}
+        <p>This student is enrolled in all available courses.</p>
+    {% endif %}
+
+    <p><a href='/students'>Back</a></p>
+{% endblock %}
